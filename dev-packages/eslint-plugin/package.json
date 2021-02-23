@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@theia/eslint-plugin",
+  "version": "1.11.0",
+  "description": "Custom ESLint rules for developing Theia extensions and applications",
+  "peerDependencies": {
+    "@theia/core": "1.11.0"
+  },
+  "peerDependenciesMeta": {
+    "@theia/core": {
+      "optional": true
+    }
+  }
+}
