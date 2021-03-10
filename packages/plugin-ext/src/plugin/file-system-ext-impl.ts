@@ -28,7 +28,7 @@
 /* eslint-disable @typescript-eslint/tslint/config */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { URI, UriComponents } from 'vscode-uri';
+import { URI } from 'vscode-uri';
 import { RPCProtocol } from '../common/rpc-protocol';
 import { PLUGIN_RPC_CONTEXT, FileSystemExt, FileSystemMain, IFileChangeDto } from '../common/plugin-api-rpc';
 import * as vscode from '@theia/plugin';
@@ -299,31 +299,31 @@ export class FileSystemExtImpl implements FileSystemExt {
         return { type, ctime, mtime, size };
     }
 
-    $stat(handle: number, resource: UriComponents): Promise<files.Stat> {
+    $stat(handle: number, resource: URI): Promise<files.Stat> {
         return Promise.resolve(this._getFsProvider(handle).stat(URI.revive(resource))).then(FileSystemExtImpl._asIStat);
     }
 
-    $readdir(handle: number, resource: UriComponents): Promise<[string, files.FileType][]> {
+    $readdir(handle: number, resource: URI): Promise<[string, files.FileType][]> {
         return Promise.resolve(this._getFsProvider(handle).readDirectory(URI.revive(resource)));
     }
 
-    $readFile(handle: number, resource: UriComponents): Promise<BinaryBuffer> {
+    $readFile(handle: number, resource: URI): Promise<BinaryBuffer> {
         return Promise.resolve(this._getFsProvider(handle).readFile(URI.revive(resource))).then(data => BinaryBuffer.wrap(data));
     }
 
-    $writeFile(handle: number, resource: UriComponents, content: BinaryBuffer, opts: files.FileWriteOptions): Promise<void> {
+    $writeFile(handle: number, resource: URI, content: BinaryBuffer, opts: files.FileWriteOptions): Promise<void> {
         return Promise.resolve(this._getFsProvider(handle).writeFile(URI.revive(resource), content.buffer, opts));
     }
 
-    $delete(handle: number, resource: UriComponents, opts: files.FileDeleteOptions): Promise<void> {
+    $delete(handle: number, resource: URI, opts: files.FileDeleteOptions): Promise<void> {
         return Promise.resolve(this._getFsProvider(handle).delete(URI.revive(resource), opts));
     }
 
-    $rename(handle: number, oldUri: UriComponents, newUri: UriComponents, opts: files.FileOverwriteOptions): Promise<void> {
+    $rename(handle: number, oldUri: URI, newUri: URI, opts: files.FileOverwriteOptions): Promise<void> {
         return Promise.resolve(this._getFsProvider(handle).rename(URI.revive(oldUri), URI.revive(newUri), opts));
     }
 
-    $copy(handle: number, oldUri: UriComponents, newUri: UriComponents, opts: files.FileOverwriteOptions): Promise<void> {
+    $copy(handle: number, oldUri: URI, newUri: URI, opts: files.FileOverwriteOptions): Promise<void> {
         const provider = this._getFsProvider(handle);
         if (!provider.copy) {
             throw new Error('FileSystemProvider does not implement "copy"');
@@ -331,11 +331,11 @@ export class FileSystemExtImpl implements FileSystemExt {
         return Promise.resolve(provider.copy(URI.revive(oldUri), URI.revive(newUri), opts));
     }
 
-    $mkdir(handle: number, resource: UriComponents): Promise<void> {
+    $mkdir(handle: number, resource: URI): Promise<void> {
         return Promise.resolve(this._getFsProvider(handle).createDirectory(URI.revive(resource)));
     }
 
-    $watch(handle: number, session: number, resource: UriComponents, opts: files.WatchOptions): void {
+    $watch(handle: number, session: number, resource: URI, opts: files.WatchOptions): void {
         const subscription = this._getFsProvider(handle).watch(URI.revive(resource), opts);
         this._watches.set(session, subscription);
     }
@@ -348,7 +348,7 @@ export class FileSystemExtImpl implements FileSystemExt {
         }
     }
 
-    $open(handle: number, resource: UriComponents, opts: files.FileOpenOptions): Promise<number> {
+    $open(handle: number, resource: URI, opts: files.FileOpenOptions): Promise<number> {
         const provider = this._getFsProvider(handle);
         if (!provider.open) {
             throw new Error('FileSystemProvider does not implement "open"');

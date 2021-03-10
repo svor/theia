@@ -30,7 +30,7 @@
 
 import { Emitter, WaitUntilEvent, AsyncEmitter } from '@theia/core/lib/common/event';
 import { IRelativePattern, parse } from '@theia/callhierarchy/lib/common/glob';
-import { URI, UriComponents } from 'vscode-uri';
+import { URI } from 'vscode-uri';
 import { EditorsAndDocumentsExtImpl as ExtHostDocumentsAndEditors } from './editors-and-documents';
 import type * as vscode from '@theia/plugin';
 import * as typeConverter from './type-converters';
@@ -170,7 +170,7 @@ export class ExtHostFileSystemEventService implements ExtHostFileSystemEventServ
 
     // --- file operations
 
-    $onDidRunFileOperation(operation: FileOperation, target: UriComponents, source: UriComponents | undefined): void {
+    $onDidRunFileOperation(operation: FileOperation, target: URI, source: URI | undefined): void {
         switch (operation) {
             case FileOperation.MOVE:
                 this._onDidRenameFile.fire(Object.freeze({ files: [{ oldUri: URI.revive(source!), newUri: URI.revive(target) }] }));
@@ -206,7 +206,7 @@ export class ExtHostFileSystemEventService implements ExtHostFileSystemEventServ
         };
     }
 
-    async $onWillRunFileOperation(operation: FileOperation, target: UriComponents, source: UriComponents | undefined, timeout: number, token: CancellationToken): Promise<any> {
+    async $onWillRunFileOperation(operation: FileOperation, target: URI, source: URI | undefined, timeout: number, token: CancellationToken): Promise<any> {
         switch (operation) {
             case FileOperation.MOVE:
                 await this._fireWillEvent(this._onWillRenameFile, { files: [{ oldUri: URI.revive(source!), newUri: URI.revive(target) }] }, timeout, token);
