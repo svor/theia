@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (C) 2020 Ericsson and others.
+ * Copyright (C) 2021 Red Hat, Inc. and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,4 +14,24 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-export const VSCODE_DEFAULT_API_VERSION = '1.52.0';
+import { URI as Uri } from 'vscode-uri';
+import * as nodePath from 'path';
+
+const posixPath = nodePath.posix || nodePath;
+
+/**
+ * Compatible class with vscode.Uri (API).
+ */
+export class URI extends Uri {
+    /**
+     * Joins one or more input paths to the path of URI.
+     * '/' is used as the directory separation character.
+     *
+     * @param uri The input URI.
+     * @param paths The paths to be joined with the path of URI.
+     * @returns A URI with the joined path. All other properties of the URI (scheme, authority, query, fragments, ...) will be taken from the input URI.
+     */
+     static joinPath(uri: Uri, ...paths: string[]): Uri {
+       return uri.with({ path: posixPath.join(uri.path, ...paths) });
+     }
+}
