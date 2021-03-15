@@ -39,6 +39,7 @@ import { RPCProtocol } from '../common/rpc-protocol';
 import { Emitter } from '@theia/core/lib/common/event';
 import { WebviewsExtImpl } from './webviews';
 import { URI } from 'vscode-uri';
+
 export interface PluginHost {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
