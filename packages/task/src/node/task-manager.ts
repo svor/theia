@@ -51,6 +51,9 @@ export class TaskManager implements BackendApplicationContribution {
      */
     register(task: Task, ctx?: string): number {
         const id = ++this.id;
+        console.log('@@@@@@@@@@@@@@@@  Task registered id = ' + this.id);
+        console.log('@@@@@@@@@@@@@@@@  Task registered task id = ' + task.id);
+        console.log('@@@@@@@@@@@@@@@@  Task registered context = ' + ctx);
         this.tasks.set(id, task);
 
         if (ctx) {
@@ -98,6 +101,7 @@ export class TaskManager implements BackendApplicationContribution {
      */
     delete(task: Task): void {
         this.tasks.delete(task.id);
+        console.log('@@@@@@@@@@@@@@@@  Task deleted = ' + task.id);
 
         const ctx = task.context;
         if (ctx && this.tasksPerCtx.has(ctx)) {

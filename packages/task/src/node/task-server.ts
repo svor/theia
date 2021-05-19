@@ -103,7 +103,16 @@ export class TaskServerImpl implements TaskServer, Disposable {
 
         this.toDispose.get(task.id)!.push(
             task.onExit(event => {
+                console.log('*******  Task onExit = ' + task.id);
                 this.taskManager.delete(task);
+                console.log('*******  Task was deleted id=' + task.id);
+                const tasks = this.taskManager.getTasks();
+                if (tasks) {
+                    for (const t of tasks) {
+                        console.log('*******  Task is present id=' + t.id);
+                    }
+                }
+                console.log('*******  Task was deleted id=' + task.id);
                 this.fireTaskExitedEvent(event, task);
                 this.removedCachedProblemCollector(event.ctx || '', event.taskId);
                 this.disposeByTaskId(event.taskId);
