@@ -955,10 +955,13 @@ export class TaskService implements TaskConfigurationClient {
      * @param option options to run the resolved task
      */
     protected async runResolvedTask(resolvedTask: TaskConfiguration, option?: RunTaskOption): Promise<TaskInfo | undefined> {
+        console.log('-------------> Run resolved task');
         const source = resolvedTask._source;
         const taskLabel = resolvedTask.label;
         try {
+            console.log('-------------> Before Run resolved task');
             const taskInfo = await this.taskServer.run(resolvedTask, this.getContext(), option);
+            console.log('-------------> After Run resolved task');
             this.lastTask = { source, taskLabel, scope: resolvedTask._scope };
             this.logger.debug(`Task created. Task id: ${taskInfo.taskId}`);
 
@@ -969,7 +972,9 @@ export class TaskService implements TaskConfigurationClient {
              *       Reason: Maybe a new task type wants to also be displayed in a terminal.
              */
             if (typeof taskInfo.terminalId === 'number') {
-                this.attach(taskInfo.terminalId, taskInfo.taskId);
+                console.log('-------------> Before attach resolved task');
+                await this.attach(taskInfo.terminalId, taskInfo.taskId);
+                console.log('-------------> After attach resolved task');
             }
             return taskInfo;
         } catch (error) {
