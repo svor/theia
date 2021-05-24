@@ -152,8 +152,10 @@ export class TasksMainImpl implements TasksMain, Disposable {
     }
 
     async $executeTask(taskDto: TaskDto): Promise<TaskExecutionDto | undefined> {
+        console.log('---------------> Execute task with config ' + JSON.stringify(taskDto));
         const taskConfig = this.toTaskConfiguration(taskDto);
         const taskInfo = await this.taskService.runTask(taskConfig);
+        console.log('---------------> Task was executed ' + JSON.stringify(taskInfo));
         if (taskInfo) {
             return {
                 id: taskInfo.taskId,

@@ -724,12 +724,16 @@ export class TaskService implements TaskConfigurationClient {
 
     async runTask(task: TaskConfiguration, option?: RunTaskOption): Promise<TaskInfo | undefined> {
         const runningTasksInfo: TaskInfo[] = await this.getRunningTasks();
-
+        console.log('------>>>> Current task config ' + JSON.stringify(task));
+        for (const t of runningTasksInfo) {
+            console.log('------>>>> Running task is ' + JSON.stringify(t));
+        }
         // check if the task is active
         const matchedRunningTaskInfo = runningTasksInfo.find(taskInfo => {
             const taskConfig = taskInfo.config;
             return this.taskDefinitionRegistry.compareTasks(taskConfig, task);
         });
+        console.log('------>>>> matchedRunningTaskInfo ' + JSON.stringify(matchedRunningTaskInfo));
         if (matchedRunningTaskInfo) { // the task is active
             const taskName = this.taskNameResolver.resolve(task);
             const terminalId = matchedRunningTaskInfo.terminalId;
@@ -750,6 +754,7 @@ export class TaskService implements TaskConfigurationClient {
                 return this.restartTask(matchedRunningTaskInfo, option);
             }
         } else { // run task as the task is not active
+            console.log('------>>>> run task as the task is not active ');
             return this.doRunTask(task, option);
         }
     }
