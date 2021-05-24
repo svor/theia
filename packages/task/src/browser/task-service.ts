@@ -291,9 +291,7 @@ export class TaskService implements TaskConfigurationClient {
             }
             this.runningTasks.get(event.taskId)!.exitCode.resolve(event.code);
             this.runningTasks.get(event.taskId)!.terminateSignal.resolve(event.signal);
-            this.runningTasks.delete(event.taskId);
-            console.log('==== Task was removed === taskID ' + event.taskId);
-            // setTimeout(() => this.runningTasks.delete(event.taskId), 60 * 1000);
+            setTimeout(() => this.runningTasks.delete(event.taskId), 60 * 1000);
 
             const taskConfig = event.config;
             const taskIdentifier = taskConfig ? this.getTaskIdentifier(taskConfig) : event.taskId.toString();
