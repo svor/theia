@@ -90,15 +90,6 @@ export class TaskServerImpl implements TaskServer, Disposable {
     }
 
     async run(taskConfiguration: TaskConfiguration, ctx?: string, option?: RunTaskOption): Promise<TaskInfo> {
-        const tasksInfo = await this.getTasks(ctx);
-        if (tasksInfo) {
-            for (const info of tasksInfo) {
-                if (info.config.label === taskConfiguration.label) {
-                    console.log('%%%%%%%% task is already running info= ' + JSON.stringify(info));
-                    return info;
-                }
-            }
-        }
         const runner = this.runnerRegistry.getRunner(taskConfiguration.type, taskConfiguration.taskType);
         const task = await runner.run(taskConfiguration, ctx);
 

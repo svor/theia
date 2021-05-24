@@ -20,7 +20,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { injectable, inject, named } from '@theia/core/shared/inversify';
-import { ILogger } from '@theia/core/lib/common/';
+import { ILogger, MaybePromise } from '@theia/core/lib/common/';
 import { Process, IProcessExitEvent } from '@theia/process/lib/node';
 import { Task, TaskOptions } from '../task';
 import { TaskManager } from '../task-manager';
@@ -126,7 +126,7 @@ export class ProcessTask extends Task {
         };
     }
 
-    getRuntimeInfo(): ProcessTaskInfo {
+    getRuntimeInfo(): MaybePromise<ProcessTaskInfo> {
         return {
             taskId: this.id,
             ctx: this.context,
