@@ -140,7 +140,9 @@ export class TaskTerminalWidgetManager {
 
         const { isNew, widget } = await this.getWidgetToRunTask(factoryOptions, openerOptions);
         if (isNew) {
-            this.shell.addWidget(widget, { area: openerOptions.widgetOptions ? openerOptions.widgetOptions.area : 'bottom' });
+            console.log('-------> Task-terminal-widget-manager before add widget');
+            await this.shell.addWidget(widget, { area: openerOptions.widgetOptions ? openerOptions.widgetOptions.area : 'bottom' });
+            console.log('-------> Task-terminal-widget-manager after add widget');
             widget.resetTerminal();
         } else {
             if (factoryOptions.title) {
@@ -157,6 +159,7 @@ export class TaskTerminalWidgetManager {
         ) {
             widget.writeLine(`\x1b[1m> Executing task: ${taskInfo.command} <\x1b[0m\n`);
         }
+        console.log('-------> Task-terminal-widget-manager finished');
         return widget;
     }
 
