@@ -802,7 +802,10 @@ export class TaskService implements TaskConfigurationClient {
             const taskToRun = executionResolver ? await executionResolver.resolveTask(resolvedTask) : resolvedTask;
 
             await this.removeProblemMarkers(option);
-            return this.runResolvedTask(taskToRun, option);
+            console.log('--------> Theia task service before run resolved ');
+            const taskInfo = await this.runResolvedTask(taskToRun, option);
+            console.log('--------> Theia task service after run resolved ' + taskInfo);
+            return taskInfo;
         } catch (error) {
             const errMessage = `Error resolving task '${task.label}': ${error}`;
             this.logger.error(errMessage);
