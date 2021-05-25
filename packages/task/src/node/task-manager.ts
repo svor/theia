@@ -86,6 +86,7 @@ export class TaskManager implements BackendApplicationContribution {
      * @returns all running tasks for the given context or `undefined` if no tasks are registered for the given context.
      */
     getTasks(ctx?: string): Task[] | undefined {
+        console.log('------> TaskManager Trying to get tasks');
         if (!ctx) {
             return [...this.tasks.values()];
         } else {

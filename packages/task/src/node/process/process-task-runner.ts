@@ -84,6 +84,7 @@ export class ProcessTaskRunner implements TaskRunner {
             });
 
             const processType = (taskConfig.taskType || taskConfig.type) as 'process' | 'shell';
+            console.log('------> ProcessTaskRunner create process task');
             return this.taskFactory({
                 label: taskConfig.label,
                 process: terminal,

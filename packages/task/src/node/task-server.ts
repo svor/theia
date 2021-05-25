@@ -77,6 +77,7 @@ export class TaskServerImpl implements TaskServer, Disposable {
     }
 
     async getTasks(context?: string): Promise<TaskInfo[]> {
+        console.log('------> Trying to get tasks');
         const taskInfo: TaskInfo[] = [];
         const tasks = this.taskManager.getTasks(context);
         if (tasks !== undefined) {
@@ -199,7 +200,7 @@ export class TaskServerImpl implements TaskServer, Disposable {
 
     protected fireTaskCreatedEvent(event: TaskInfo, task?: Task): void {
         this.logger.debug(log => log('task created:', event));
-
+        console.log('-----> Task server send TaskCreatedEvent');
         this.clients.forEach(client => {
             client.onTaskCreated(event);
         });

@@ -66,6 +66,7 @@ export class ProcessTask extends Task {
         @inject(TaskProcessOptions) protected readonly options: TaskProcessOptions
     ) {
         super(taskManager, logger, options);
+        console.log('-----> ProcessTask task was created');
 
         const toDispose = this.process.onClose(async event => {
             toDispose.dispose();
