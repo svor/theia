@@ -397,6 +397,7 @@ export class TreeViewWidget extends TreeViewWelcomeWidget {
 
     // execute TreeItem.command if present
     protected tryExecuteCommand(node?: TreeNode): void {
+        console.log('--------------------->>> Trying to execute command ---------');
         const treeNodes = (node ? [node] : this.model.selectedNodes) as TreeViewNode[];
         for (const treeNode of treeNodes) {
             if (treeNode && treeNode.command) {
