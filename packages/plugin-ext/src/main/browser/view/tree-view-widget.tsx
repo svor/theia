@@ -383,7 +383,7 @@ export class TreeViewWidget extends TreeViewWelcomeWidget {
         }
     }
 
-    protected executeCommand = debounce((node?: TreeNode) => this.tryExecuteCommand(node), 500);
+    protected executeCommand = debounce((node?: TreeNode) => this.tryExecuteCommand(node), 200);
 
     handleEnter(event: KeyboardEvent): void {
         super.handleEnter(event);
@@ -397,7 +397,6 @@ export class TreeViewWidget extends TreeViewWelcomeWidget {
 
     // execute TreeItem.command if present
     protected tryExecuteCommand(node?: TreeNode): void {
-        console.log('--------------------->>> Trying to execute command ---------');
         const treeNodes = (node ? [node] : this.model.selectedNodes) as TreeViewNode[];
         for (const treeNode of treeNodes) {
             if (treeNode && treeNode.command) {
