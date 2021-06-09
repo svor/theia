@@ -14,7 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import debounce = require('@theia/core/shared/lodash.debounce');
 import { URI } from '@theia/core/shared/vscode-uri';
 import { injectable, inject, postConstruct } from '@theia/core/shared/inversify';
 import { TreeViewsExt, TreeViewSelection } from '../../../common/plugin-api-rpc';
@@ -383,16 +382,14 @@ export class TreeViewWidget extends TreeViewWelcomeWidget {
         }
     }
 
-    protected executeCommand = debounce((node?: TreeNode) => this.tryExecuteCommand(node), 500);
-
     handleEnter(event: KeyboardEvent): void {
         super.handleEnter(event);
-        this.executeCommand();
+        this.tryExecuteCommand();
     }
 
     handleClickEvent(node: TreeNode, event: React.MouseEvent<HTMLElement>): void {
         super.handleClickEvent(node, event);
-        this.executeCommand(node);
+        this.tryExecuteCommand(node);
     }
 
     // execute TreeItem.command if present
